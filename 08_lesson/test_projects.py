@@ -6,7 +6,7 @@ import requests
 
 @pytest.fixture
 def base_url():
-    return "https://ru.yougile.com/api-v2/"
+    return " "
 
 
 @pytest.fixture
@@ -23,8 +23,7 @@ def my_payload():
 def my_headers():
     return {
         "Content-Type": "application/json",
-        "Authorization": "Bearer "
-        "QqTrdNrK-3HOxB-fq5jxukaiNtGCIKzry6wcduN3WzHau8NMTL4RsT0eNtgVyH3J"
+        "Authorization": " "
     }
 
 
