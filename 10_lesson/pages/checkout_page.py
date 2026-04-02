@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import allure
 
 
@@ -29,10 +31,15 @@ class CheckoutPage:
         :param postal_code: почтовый индекс (str)
         :return: None
         """
-        self.driver.find_element(*self.first_name_input).send_keys(first_name)
-        self.driver.find_element(*self.last_name_input).send_keys(last_name)
-        self.driver.find_element(
-            *self.postal_code_input).send_keys(postal_code)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.first_name_input)
+            ).send_keys(first_name)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.last_name_input)
+            ).send_keys(last_name)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.postal_code_input)
+            ).send_keys(postal_code)
 
     @allure.step("Завершение оформления заказа")
     def complete_order(self) -> None:
@@ -40,7 +47,9 @@ class CheckoutPage:
         Нажимает кнопку 'Continue'.
         :return: None
         """
-        self.driver.find_element(*self.continue_button).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.continue_button)
+            ).click()
 
     @allure.step("Получение итоговой суммы заказа")
     def get_total_amount(self) -> float:
@@ -48,5 +57,8 @@ class CheckoutPage:
         Возвращает итоговую сумму заказа.
         :return: итоговая сумма (float)
         """
-        text = self.driver.find_element(*self.total_amount_label).text
+        element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.total_amount_label)
+        )
+        text = element.text
         return float(text.split('$')[1])

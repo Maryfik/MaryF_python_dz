@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import allure
 
 
@@ -23,9 +25,15 @@ class InventoryPage:
         Добавляет три товара в корзину.
         :return: None
         """
-        self.driver.find_element(*self.backpack_btn).click()
-        self.driver.find_element(*self.t_shirt_btn).click()
-        self.driver.find_element(*self.onesie_btn).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.backpack_btn)
+            ).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.t_shirt_btn)
+            ).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.onesie_btn)
+            ).click()
 
     @allure.step("Переход к оформлению заказа")
     def proceed_to_checkout(self) -> None:
@@ -33,4 +41,6 @@ class InventoryPage:
         Переходит на страницу корзины.
         :return: None
         """
-        self.driver.find_element(*self.cart_icon).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.cart_icon)
+            ).click()

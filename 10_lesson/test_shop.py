@@ -18,7 +18,6 @@ def driver():
             GeckoDriverManager().install())
     )
     driver.maximize_window()
-    driver.implicitly_wait(5)
     driver.set_script_timeout(10)
     yield driver
     driver.quit()
